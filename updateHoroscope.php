@@ -1,6 +1,8 @@
 <?php
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
+  
+
     $addHoroscope = new AddHoroscope();
     $databaseResult = $addHoroscope->getHoroscope();
     echo json_encode($databaseResult);

@@ -19,8 +19,9 @@
 // }
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
+    $date = $_POST['inputDate'];
     $addHoroscope = new AddHoroscope();
-    $databaseResult = $addHoroscope->getHoroscope();
+    $databaseResult = $addHoroscope->getHoroscope($date);
     echo json_encode($databaseResult);
 }
 
@@ -31,7 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         $this->database = new Database();
     }
 
-      public function getHoroscope() {
+      public function getHoroscope($date) {
         $query = $this->database->connection->prepare("SELECT * FROM horoscopelist;");
         $query->execute();
         $result = $query->fetchAll();
@@ -40,21 +41,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         if(empty($result)) {
           return array("error" => "Kunde ej hämta horoskop");
         }
-        return checkHoroscope(); //$result
+        return checkHoroscope($date); //$result
       }
     }
 
 // hämta alla horoskop, ta foreach och kolla vilka datum som stämmer, returnera horoscopesign.
 
-    function checkHoroscope() {
-        $upperBound = new DateTime("3/15");
-        $lowerBound = new DateTime("3/20");
-        $checkDate = new DateTime("3/17");
+    function checkHoroscope($date) {
+        $upperBound = new DateTime("03/15");
+        $lowerBound = new DateTime("03/20");
+        $checkDate = new DateTime($date);
 
         if ($lowerBound < $upperBound) {
-            $between = $lowerBound < $checkDate && $checkDate < $upperBound;
+            $between = $lowerBound <= $checkDate && $checkDate <= $upperBound;
         } else {
-            $between = $checkDate < $upperBound || $checkDate > $lowerBound;
+            $between = $checkDate <= $upperBound || $checkDate >= $lowerBound;
         }
         return $between;
 

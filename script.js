@@ -16,13 +16,16 @@ function makeRequest(url, method, requestData, callback) {
 
 function addHoroscope() {
   var myDate = document.getElementById('dateInput').value;
+  var noYear = myDate.slice(5, 10);
+  var date = noYear.replace('-', '/')
+  console.log(date)
   myDate.value = "";
-  myDate = new Date();
+
   console.log(myDate)
 
   var requestData = new FormData()
   requestData.append("action", "addHoroscope")
-  requestData.append("inputDate", myDate)
+  requestData.append("inputDate", date)
 
   makeRequest("addHoroscope.php", "POST", requestData, (response)=>{
     console.log(response)
