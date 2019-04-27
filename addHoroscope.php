@@ -1,22 +1,7 @@
 <?php
 
-// session_start();
-//
-// if($_POST["action"] == "addHoroscope") {
-//
-//   // $myDate = $_POST["inputDate"];
-//
-//   if(isset($_SESSION["myHoroscope"])) {
-//     $myHoroscope = $_SESSION["myHoroscope"];
-//
-//     echo json_encode($myHoroscope);
-//   } else {
-//     echo json_encode("Finns inget, addera horoskåp till session");
-//     getHoroscope();
-//   }
-//
-//
-// }
+session_start();
+
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $date = $_POST['inputDate'];
@@ -36,28 +21,41 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         $query = $this->database->connection->prepare("SELECT * FROM horoscopelist;");
         $query->execute();
         $result = $query->fetchAll();
-        // checkHoroscope();
+        // checkHoroscope($date, $result);
 
         if(empty($result)) {
           return array("error" => "Kunde ej hämta horoskop");
         }
-        return checkHoroscope($date); //$result
+
+        return checkHoroscope($date, $result); //$result
+        // setSession($myHoroscope)
       }
     }
 
 // hämta alla horoskop, ta foreach och kolla vilka datum som stämmer, returnera horoscopesign.
 
-    function checkHoroscope($date) {
-        $upperBound = new DateTime("03/15");
-        $lowerBound = new DateTime("03/20");
+    function checkHoroscope($date, $result) {
+
         $checkDate = new DateTime($date);
+        $found = false;
 
-        if ($lowerBound < $upperBound) {
-            $between = $lowerBound <= $checkDate && $checkDate <= $upperBound;
-        } else {
-            $between = $checkDate <= $upperBound || $checkDate >= $lowerBound;
+        for($i = 0; $i < count($result) && !$found; $i++){
+          $start = new DateTime($result[$i]['datefrom']);
+          $stop = new DateTime($result[$i]['dateto']);
+
+          if($start <= $checkDate && $checkDate <= $stop) {
+            $output = $result[$i]['horoscopesign'];
+            $found = true;
+          } else {
+            $output = 'finns ej';
+          }
         }
-        return $between;
-
+        return $output;
 }
+
+//   function setSession ($myHoroscope) {
+//     if(!isset($_SESSION["myHoroscope"])) {
+//       $_SESSION["myHoroscope"] = $myHoroscope;
+//     }
+// }
  ?>
