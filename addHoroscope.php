@@ -27,8 +27,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
           return array("error" => "Kunde ej hämta horoskop");
         }
 
-        return checkHoroscope($date, $result); //$result
-        // setSession($myHoroscope)
+        $myHoroscope = checkHoroscope($date, $result);
+        setSession($myHoroscope);
+        return $myHoroscope;
       }
     }
 
@@ -51,11 +52,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
           }
         }
         return $output;
-}
+    }
 
-//   function setSession ($myHoroscope) {
-//     if(!isset($_SESSION["myHoroscope"])) {
-//       $_SESSION["myHoroscope"] = $myHoroscope;
-//     }
-// }
+  function setSession ($myHoroscope) {
+    if(!isset($_SESSION["myHoroscope"])) {
+      $_SESSION["myHoroscope"] = $myHoroscope;
+    }
+  }
  ?>

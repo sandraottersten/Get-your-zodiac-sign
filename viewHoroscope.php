@@ -2,15 +2,15 @@
 
     session_start();
 
-    if($_GET["action"] == "viewHoroscope") {
+    if($_SERVER["REQUEST_METHOD"] == "GET") {
 
       if(isset($_SESSION["myHoroscope"])) {
-        $myHoroscope = $_SESSION["myHoroscope"];
+        $currentHoroscope = $_SESSION["myHoroscope"];
 
-        echo json_encode($myHoroscope);
-      } else {
-        echo json_encode("Listan är tom");
+        echo json_encode($currentHoroscope);
       }
 }
+
+
 
  ?>

@@ -2,10 +2,19 @@ var picker = flatpickr("#dateInput", {});
 
 
 function makeRequest(url, method, requestData, callback) {
-  fetch(url, {
-    method: method,
-    body: requestData
-  }).then((data) => {
+  var headers;
+  if(method == "GET") {
+    headers = {
+      method: method
+    }
+  } else {
+    headers = {
+      method: method,
+      body: requestData
+    }
+  }
+
+  fetch(url, headers).then((data) => {
     return data.json()
   }).then((result) => {
     callback(result)
@@ -58,9 +67,8 @@ console.log('delete')
 }
 
 function viewHoroscope() {
-
   var requestData = new FormData()
-  requestData.append("action", "viewHoroscope")
+//  requestData.append("action", "viewHoroscope")
   makeRequest("viewHoroscope.php", "GET", requestData, (response)=>{
     console.log(response)
   })
