@@ -8,6 +8,8 @@
         $currentHoroscope = $_SESSION["myHoroscope"];
 
         echo json_encode($currentHoroscope);
+      } else {
+        echo json_encode(false);
       }
 }
 

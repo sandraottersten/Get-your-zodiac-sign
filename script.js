@@ -1,7 +1,7 @@
 window.onload = viewHoroscope();
 
 
-var picker = flatpickr("#dateInput", {});
+// var picker = flatpickr("#dateinput", {});
 
 
 function makeRequest(url, method, requestData, callback) {
@@ -27,10 +27,9 @@ function makeRequest(url, method, requestData, callback) {
 }
 
 function addHoroscope() {
-  var myDate = document.getElementById('dateInput').value;
+  var myDate = document.getElementById('dateinput').value;
   var noYear = myDate.slice(5, 10);
   var date = noYear.replace('-', '/')
-  console.log(date)
   myDate.value = "";
 
   var requestData = new FormData()
@@ -44,10 +43,9 @@ function addHoroscope() {
 }
 
 function updateHoroscope() {
-  var myDate = document.getElementById('dateInput').value;
+  var myDate = document.getElementById('dateinput').value;
   var noYear = myDate.slice(5, 10);
   var date = noYear.replace('-', '/')
-  console.log(date)
   myDate.value = "";
 
   var requestData = new FormData()
@@ -57,8 +55,6 @@ function updateHoroscope() {
     viewHoroscope();
     console.log(response)
   })
-console.log('update')
-
 }
 
 function deleteHoroscope() {
@@ -66,21 +62,52 @@ function deleteHoroscope() {
   makeRequest("deleteHoroscope.php", "DELETE", requestData, (response)=>{
     if(response == true) {
       var result = document.getElementById('horoscope')
-      result.innerText = ""
+      result.innerText = "Who are you?"
+
+      var myDate = document.getElementById('dateinput').value = "";
+
+
+      document.getElementById("image").remove();
+      var container = document.getElementById('picture')
+      var image = document.createElement('img')
+      image.id = "image"
+      image.src = `img/none.png`
+      container.appendChild(image);
       console.log(response)
     } else {
       console.log(response)
     }
   })
-
-console.log('delete')
 }
 
 function viewHoroscope() {
   var requestData = new FormData()
   makeRequest("viewHoroscope.php", "GET", requestData, (response)=>{
-    var result = document.getElementById('horoscope')
-    result.innerText = response
+
+
+    if(document.getElementById("image")){
+      document.getElementById("image").remove();
+    }
+    console.log(response)
+    if(!response) {
+      var container = document.getElementById('picture')
+      var image = document.createElement('img')
+      image.id = "image"
+      image.src = `img/none.png`
+      container.appendChild(image);
+
+      var result = document.getElementById('horoscope')
+      result.innerText = "Who are you?"
+    } else {
+      var result = document.getElementById('horoscope')
+      result.innerText = response
+      
+      var container = document.getElementById('picture')
+      var image = document.createElement('img')
+      image.id = "image"
+      image.src = `img/${response}.png`
+      container.appendChild(image);
+    }
+
   })
-console.log('view')
 }

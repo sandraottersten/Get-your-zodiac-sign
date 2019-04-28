@@ -2,18 +2,23 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My horoscope</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> -->
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
   </head>
   <body>
-
-    <input id="dateInput" type="text" name="" value="">
-    <button type="button" name="button" onclick="addHoroscope()">Spara</button>
-    <button type="button" name="button" onclick="updateHoroscope()">Uppdatera</button>
-    <button type="button" name="button" onclick="deleteHoroscope()">Radera</button>
-    <button type="button" name="button" onclick="viewHoroscope()">View</button>
-    <div id="horoscope"></div>
+    <article class="container">
+      <div id="picture"></div>
+      <div id="horoscope"></div>
+      <input id="dateinput" type="date" placeholder="birthday" value="">
+    </article>
+    <article class="buttons">
+      <a href="#" onclick="addHoroscope()">Spara</a>
+      <a href="#" onclick="updateHoroscope()">Uppdatera</a>
+      <a href="#" name="button" onclick="deleteHoroscope()">Radera</a>
+    </article>
   </body>
 </html>
 <script src="script.js"></script>
