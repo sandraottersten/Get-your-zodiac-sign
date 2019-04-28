@@ -2,15 +2,17 @@
 
     session_start();
 
-    if($_POST["action"] == "deleteHoroscope") {
+    if($_SERVER["REQUEST_METHOD"] == "DELETE") {
 
       if(isset($_SESSION["myHoroscope"])) {
-        $myHoroscope = $_SESSION["myHoroscope"];
+        unset($_SESSION["myHoroscope"]);
 
-        echo json_encode($myHoroscope);
+        echo json_encode(true);
       } else {
-        echo json_encode("Listan är tom");
+        echo json_encode(false);
       }
 }
+
+
 
  ?>
