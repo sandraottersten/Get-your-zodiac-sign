@@ -1,9 +1,5 @@
 window.onload = viewHoroscope();
 
-
-// var picker = flatpickr("#dateinput", {});
-
-
 function makeRequest(url, method, requestData, callback) {
   var headers;
   if(method == "GET") {
@@ -61,18 +57,10 @@ function deleteHoroscope() {
   var requestData = new FormData()
   makeRequest("deleteHoroscope.php", "DELETE", requestData, (response)=>{
     if(response == true) {
-      var result = document.getElementById('horoscope')
-      result.innerText = "Who are you?"
-
+      setText('Who are you?')
       var myDate = document.getElementById('dateinput').value = "";
-
-
       document.getElementById("image").remove();
-      var container = document.getElementById('picture')
-      var image = document.createElement('img')
-      image.id = "image"
-      image.src = `img/none.png`
-      container.appendChild(image);
+      setImage('none');
       console.log(response)
     } else {
       console.log(response)
@@ -84,30 +72,28 @@ function viewHoroscope() {
   var requestData = new FormData()
   makeRequest("viewHoroscope.php", "GET", requestData, (response)=>{
 
-
     if(document.getElementById("image")){
       document.getElementById("image").remove();
     }
-    console.log(response)
     if(!response) {
-      var container = document.getElementById('picture')
-      var image = document.createElement('img')
-      image.id = "image"
-      image.src = `img/none.png`
-      container.appendChild(image);
-
-      var result = document.getElementById('horoscope')
-      result.innerText = "Who are you?"
+      setImage('none');
+      setText('Who are you?')
     } else {
-      var result = document.getElementById('horoscope')
-      result.innerText = response
-      
-      var container = document.getElementById('picture')
-      var image = document.createElement('img')
-      image.id = "image"
-      image.src = `img/${response}.png`
-      container.appendChild(image);
+      setText(response)
+      setImage(response)
     }
-
   })
+}
+
+function setImage(name) {
+  var container = document.getElementById('picture')
+  var image = document.createElement('img')
+  image.id = "image"
+  image.src = `img/${name}.png`
+  container.appendChild(image);
+}
+
+function setText(text) {
+  var result = document.getElementById('horoscope')
+  result.innerText = text
 }
