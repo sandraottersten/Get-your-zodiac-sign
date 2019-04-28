@@ -27,8 +27,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $myHoroscope = checkHoroscope($date, $result);
-        setSession($myHoroscope);
-        return $myHoroscope;
+        $output = setSession($myHoroscope);
+        return $output;
       }
     }
 
@@ -56,6 +56,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   function setSession ($myHoroscope) {
     if(isset($_SESSION["myHoroscope"])) {
       $_SESSION["myHoroscope"] = $myHoroscope;
+      return true;
+    } else {
+      return false;
     }
   }
  ?>

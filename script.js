@@ -1,3 +1,6 @@
+window.onload = viewHoroscope();
+
+
 var picker = flatpickr("#dateInput", {});
 
 
@@ -30,13 +33,12 @@ function addHoroscope() {
   console.log(date)
   myDate.value = "";
 
-  console.log(myDate)
-
   var requestData = new FormData()
   requestData.append("action", "addHoroscope")
   requestData.append("inputDate", date)
 
   makeRequest("addHoroscope.php", "POST", requestData, (response)=>{
+    viewHoroscope();
     console.log(response)
   })
 }
@@ -48,12 +50,11 @@ function updateHoroscope() {
   console.log(date)
   myDate.value = "";
 
-  console.log(myDate)
-
   var requestData = new FormData()
   requestData.append("inputDate", date)
 
   makeRequest("updateHoroscope.php", "POST", requestData, (response)=>{
+    viewHoroscope();
     console.log(response)
   })
 console.log('update')
@@ -63,7 +64,13 @@ console.log('update')
 function deleteHoroscope() {
   var requestData = new FormData()
   makeRequest("deleteHoroscope.php", "DELETE", requestData, (response)=>{
-    console.log(response)
+    if(response == true) {
+      var result = document.getElementById('horoscope')
+      result.innerText = ""
+      console.log(response)
+    } else {
+      console.log(response)
+    }
   })
 
 console.log('delete')
@@ -72,7 +79,8 @@ console.log('delete')
 function viewHoroscope() {
   var requestData = new FormData()
   makeRequest("viewHoroscope.php", "GET", requestData, (response)=>{
-    console.log(response)
+    var result = document.getElementById('horoscope')
+    result.innerText = response
   })
 console.log('view')
 }
