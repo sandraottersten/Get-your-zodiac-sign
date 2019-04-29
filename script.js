@@ -2,7 +2,7 @@ window.onload = viewHoroscope();
 
 function makeRequest(url, method, requestData, callback) {
   var headers;
-  if(method == "GET") {
+  if (method == "GET") {
     headers = {
       method: method
     }
@@ -28,11 +28,16 @@ function addHoroscope() {
   var date = noYear.replace('-', '/')
   myDate.value = "";
 
+
+  document.getElementById("add").style.display = 'none';
+  document.getElementById("update").style.display = 'unset';
+  document.getElementById("delete").style.display = 'unset';
+
   var requestData = new FormData()
   requestData.append("action", "addHoroscope")
   requestData.append("inputDate", date)
 
-  makeRequest("addHoroscope.php", "POST", requestData, (response)=>{
+  makeRequest("addHoroscope.php", "POST", requestData, (response) => {
     viewHoroscope();
     console.log(response)
   })
@@ -47,16 +52,21 @@ function updateHoroscope() {
   var requestData = new FormData()
   requestData.append("inputDate", date)
 
-  makeRequest("updateHoroscope.php", "POST", requestData, (response)=>{
+  makeRequest("updateHoroscope.php", "POST", requestData, (response) => {
     viewHoroscope();
     console.log(response)
   })
 }
 
 function deleteHoroscope() {
+
+  document.getElementById("add").style.display = 'unset';
+  document.getElementById("update").style.display = 'none';
+  document.getElementById("delete").style.display = 'none';
+
   var requestData = new FormData()
-  makeRequest("deleteHoroscope.php", "DELETE", requestData, (response)=>{
-    if(response == true) {
+  makeRequest("deleteHoroscope.php", "DELETE", requestData, (response) => {
+    if (response == true) {
       setText('Who are you?')
       var myDate = document.getElementById('dateinput').value = "";
       document.getElementById("image").remove();
@@ -70,17 +80,23 @@ function deleteHoroscope() {
 
 function viewHoroscope() {
   var requestData = new FormData()
-  makeRequest("viewHoroscope.php", "GET", requestData, (response)=>{
+  makeRequest("viewHoroscope.php", "GET", requestData, (response) => {
 
-    if(document.getElementById("image")){
+    if (document.getElementById("image")) {
       document.getElementById("image").remove();
     }
-    if(!response) {
+    if (!response) {
       setImage('none');
       setText('Who are you?')
+      document.getElementById("add").style.display = 'unset';
+      document.getElementById("update").style.display = 'none';
+      document.getElementById("delete").style.display = 'none';
     } else {
       setText(response)
       setImage(response)
+      document.getElementById("add").style.display = 'none';
+      document.getElementById("update").style.display = 'unset';
+      document.getElementById("delete").style.display = 'unset';
     }
   })
 }

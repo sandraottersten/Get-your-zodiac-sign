@@ -36,6 +36,12 @@ a {
   margin: .5rem;
   color: white;
   border-radius: 5px;
+  width: 7rem;
+  text-align: center;
+}
+
+a:hover {
+  background-color: rgb(245, 153, 84);
 }
 
 input {
