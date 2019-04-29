@@ -1,5 +1,7 @@
 window.onload = viewHoroscope();
 
+// kollar om metoden är GET, då skickas ej en body med
+
 function makeRequest(url, method, requestData, callback) {
   var headers;
   if (method == "GET") {
@@ -13,6 +15,8 @@ function makeRequest(url, method, requestData, callback) {
     }
   }
 
+// gör en request via fetch
+
   fetch(url, headers).then((data) => {
     return data.json()
   }).then((result) => {
@@ -22,19 +26,22 @@ function makeRequest(url, method, requestData, callback) {
   })
 }
 
+// tar datuminputen och gör om den till samma format som i databasen
+// visar/döljer knappar
+// skickar med datuminputen till requesten
+// uppdaterar outputen med viewHoroscope
+
 function addHoroscope() {
   var myDate = document.getElementById('dateinput').value;
   var noYear = myDate.slice(5, 10);
   var date = noYear.replace('-', '/')
   myDate.value = "";
 
-
   document.getElementById("add").style.display = 'none';
   document.getElementById("update").style.display = 'unset';
   document.getElementById("delete").style.display = 'unset';
 
   var requestData = new FormData()
-  requestData.append("action", "addHoroscope")
   requestData.append("inputDate", date)
 
   makeRequest("addHoroscope.php", "POST", requestData, (response) => {
@@ -42,6 +49,10 @@ function addHoroscope() {
     console.log(response)
   })
 }
+
+// tar datuminputen och gör om den till samma format som i databasen
+// skickar med datuminputen till requesten
+// uppdaterar outputen med viewHoroscope
 
 function updateHoroscope() {
   var myDate = document.getElementById('dateinput').value;
@@ -57,6 +68,9 @@ function updateHoroscope() {
     console.log(response)
   })
 }
+
+// visar/döljer knappar
+// skickar en request, om delete lyckades uppdateras text och bild
 
 function deleteHoroscope() {
 
@@ -77,6 +91,8 @@ function deleteHoroscope() {
     }
   })
 }
+
+// skickar en request och uppdaterar bild, text och knappar beroende på respons
 
 function viewHoroscope() {
   var requestData = new FormData()
@@ -101,6 +117,8 @@ function viewHoroscope() {
   })
 }
 
+// skapar en image tag med korrekt bild
+
 function setImage(name) {
   var container = document.getElementById('picture')
   var image = document.createElement('img')
@@ -108,6 +126,8 @@ function setImage(name) {
   image.src = `img/${name}.png`
   container.appendChild(image);
 }
+
+// skriver ut rätt horoskop
 
 function setText(text) {
   var result = document.getElementById('horoscope')

@@ -2,6 +2,7 @@
 
 session_start();
 
+// ger tillgång till sidan via POST, skapar en ny class och kör funktionen getHoroscope med det inskickade datumet
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $date = $_POST['inputDate'];
@@ -12,10 +13,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     class UpdateHoroscope {
 
+// ger tillgång till databasen
+
       function __construct() {
         include_once("database.php");
         $this->database = new Database();
     }
+
+// skickar en förfrågan till databasen och hämtar ut alla horoskop. Kör sedan en funktion som plockar ut rätt horoskop och en som sätter SESSION
 
       public function getHoroscope($date) {
         $query = $this->database->connection->prepare("SELECT * FROM horoscopelist;");
@@ -25,14 +30,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         if(empty($result)) {
           return array("error" => "Kunde ej hämta horoskop");
         }
-
         $myHoroscope = checkHoroscope($date, $result);
         $output = setSession($myHoroscope);
         return $output;
       }
     }
 
-// hämta alla horoskop, ta foreach och kolla vilka datum som stämmer, returnera horoscopesign.
+// hämta alla horoskop, loopa igenom och kolla vilka datum som stämmer, returnera horoscopesign.
 
     function checkHoroscope($date, $result) {
 
@@ -52,6 +56,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         return $output;
     }
+
+// om det finns något i SESSION, skriv över det
 
   function setSession ($myHoroscope) {
     if(isset($_SESSION["myHoroscope"])) {

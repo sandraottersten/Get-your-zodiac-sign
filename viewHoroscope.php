@@ -2,6 +2,8 @@
 
     session_start();
 
+// ger tillgång till sidan via GET, kollar om det finns något i SESSION och echoar det
+
     if($_SERVER["REQUEST_METHOD"] == "GET") {
 
       if(isset($_SESSION["myHoroscope"])) {
